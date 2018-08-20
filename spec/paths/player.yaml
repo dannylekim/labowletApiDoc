@@ -1,0 +1,31 @@
+post:
+  tags:
+    - Player
+  summary: Create a new player
+  description: >
+    Creates a new `PlayerSession` and a new `Player` that is associated to the
+    former. This `PlayerSession` is then
+
+    associated to the current `HttpSession` and is now tracked along every
+    request that this session will perform.
+  operationId: createPlayer
+  parameters:
+    - name: name
+      in: query
+      description: The name of the player
+      required: true
+      type: string
+  security:
+    - Session: []
+  produces:
+    - application/json
+  responses:
+    '200':
+      description: Success
+      schema:
+        $ref: '#/definitions/Player'
+      examples:
+        application/json:
+          name: Danny
+          words: []
+          id: 7004efef-dab8-4971-8149-cdcd6e16f7e2

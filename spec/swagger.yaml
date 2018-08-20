@@ -1,49 +1,34 @@
 swagger: '2.0'
-# You should specify common part of your endpoints in the following format:
-#   <schemes>://<host><basepath>
 schemes:
-  - http # Remove if your API doesn't support HTTP
-host: http://159.203.5.35 # Replace with your hostname. You can also specify port e.g. example.com:777
-basePath: / # Replace with your basePath. Note: SHOULD begin with '/'.
+  - http
+host: 159.203.5.35
+basePath: /
 info:
-  # Describe your API here, you can use GFM (https://guides.github.com/features/mastering-markdown) here
-  description: |
+  description: >
     These are the backend api points for Labowlet.
 
+
     # Introduction
-    Welcome to Labowlet! This here is the api documentation that describes all the relevant events that will happen
+
+    Welcome to Labowlet! This here is the api documentation that describes all
+    the relevant events that will happen
+
     in the web application.
-
-  version: '1.0.0' # Your API version
-  # It can be any string but it is better to use semantic versioning: http://semver.org/
-  # Warning: OpenAPI require version to be string, but without quotation YAML can recognize it as number.
-
-  title: Labowlet # Replace with your API title
-  # Keep it simple. Don't add "API" or verison at the end of the string.
-
+  version: 1.0.0
+  title: Labowlet
   contact:
-    email: dannylekim@gmail.com # [Optional] Replace with your contact email
-    url: 'https://github.com/dannylekim' # [Optional] Replace with link to your contact form
+    email: dannylekim@gmail.com
+    url: 'https://github.com/dannylekim'
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
   x-logo:
-    url: 'https://banner2.kisspng.com/20180501/fhw/kisspng-greek-salad-bowl-lettuce-vegetable-5ae8f252632712.5573243615252158264061.jpg'
+    url: >-
+      https://banner2.kisspng.com/20180501/fhw/kisspng-greek-salad-bowl-lettuce-vegetable-5ae8f252632712.5573243615252158264061.jpg
 produces:
-  # List of mime types your API endpoins can return.
-  # This is a global default. You can OVERWRITE it in each specific operation.
-  # Remove the ones not used in your API
   - application/json
-  # you can add any mime type your API produces to the list
 consumes:
-  # List of mime types your API endpoins consumes.
-  # This is a global default. You can OVERWRITE it in each specific operation.
-  # Remove the ones not supported by your API
   - application/json
-  # you can add any mime type your API consumes to the list
-
-# A list of tags used by the specification with additional metadata.
-# The order of the tags can be used to reflect on their order by the parsing tools.
 tags:
   - name: Player
     description: Operations regarding the player and a user's session.
@@ -51,65 +36,8 @@ tags:
     description: Operations about Room
   - name: Team
     description: Operations about the Team
-
-# Security scheme definitions that can be used across the specification.
 securityDefinitions:
-  main_auth: Session based # security definition name (you can name it as you want)
-    type: apiKey # authorization type, one of: oauth2, basic, apiKey
-    in: header # Where API key will be passed: header or query
-    name: X-Auth-Token # API key paramteer name
-# Holds the relative paths to the individual endpoints. The path is appended to the
-# basePath in order to construct the full URL. 
-paths:
-  '/player' : # path parameter in curly braces
-    # documentation for GET operation for this path
-    post:
-      tags:
-        - Player
-
-      # summary is up to 120 symbold but we recommend to be shortest as possible
-      summary: Create a new player
-
-      # you can use GFM in operation description too: https://guides.github.com/features/mastering-markdown
-      description: |
-        Creates a new `PlayerSession` and a new `Player` that is associated to the former. This `PlayerSession` is then
-        associated to the current `HttpSession` and is now tracked along every request that this session will perform.
-
-      # operationId should be unique across the whole specification
-      operationId: createPlayer
-
-      # list of parameters for the operation
-      parameters:
-        - name: name
-          in: body
-          description: 'The name of the player'
-          required: true
-          type: string
-
-      # security schemas applied to this operation
-      security:
-        - api_key: []
-      # overwriting default global produces
-      produces:
-        - application/json
-      responses: # list of responses
-        '200':
-          description: Success
-          schema: # response schema can be specified for each response
-            $ref: '#/definitions/User'
-          examples:
-          # repsonse samples for each type operation produces
-            application/json:
-              name: Danny
-# An object to hold data types that can be consumed and produced by operations.
-# These data types can be primitives, arrays or models.
-definitions:
-  Player:
-    description: The created Player
-    type: object
-    properties:
-      name:
-        description: Player supplied name
-        type: string
-        example: Danny
-
+  Session:
+    type: apiKey
+    in: header
+    name: X-Auth-Token

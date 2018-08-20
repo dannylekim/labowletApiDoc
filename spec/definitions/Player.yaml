@@ -1,0 +1,19 @@
+description: The created Player
+type: object
+properties:
+  name:
+    description: Player supplied name
+    type: string
+    example: Danny
+  words:
+    description: The words that the user has created to place into a word bowl
+    type: array
+    items:
+      type: string
+    example:
+      - One Word
+      - Another Word
+  id:
+    description: The unique ID associated to this newly created Player
+    type: string
+    example: 7004efef-dab8-4971-8149-cdcd6e16f7e2
