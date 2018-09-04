@@ -1,0 +1,24 @@
+post:
+  tags:
+    - Room
+  summary: Join a created Room
+  description: Joins a created `Room` using the inputted `RoomCode`.
+  operationId: joinRoom
+  parameters:
+    - name: roomCode
+      in: body
+      description: The unique Room Code that identifies the room
+      schema:
+        type: string
+      required: true
+  security:
+    - Session: []
+  produces:
+    - application/json
+  responses:
+    '200':
+      description: Successfully joined a Room
+      schema:
+        $ref: '#/definitions/Room'
+    '400':
+      description: There is no room with that room code. Please try again!

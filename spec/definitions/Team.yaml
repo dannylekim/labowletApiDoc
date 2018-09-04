@@ -1,0 +1,17 @@
+description: A participating team in a room
+type: object
+properties:
+  teamName:
+    description: The team name
+    type: string
+    example: First Team
+  teamMember1:
+    $ref: '#/definitions/Player'
+  teamMember2:
+    $ref: '#/definitions/Player'
+  teamId:
+    description: unique identifier of a team
+    type: string
+    example: 7004efef-dab8-4971-8149-cdcd6e16f7e2
+  teamScore:
+    $ref: '#/definitions/Score'

@@ -10,13 +10,12 @@ post:
     request that this session will perform.
   operationId: createPlayer
   parameters:
-    - name: name
-      in: query
+    - name: player
+      in: body
       description: The name of the player
+      schema:
+        type: string
       required: true
-      type: string
-  security:
-    - Session: []
   produces:
     - application/json
   responses:
@@ -24,8 +23,3 @@ post:
       description: Success
       schema:
         $ref: '#/definitions/Player'
-      examples:
-        application/json:
-          name: Danny
-          words: []
-          id: 7004efef-dab8-4971-8149-cdcd6e16f7e2

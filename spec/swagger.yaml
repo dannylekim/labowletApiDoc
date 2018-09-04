@@ -1,7 +1,7 @@
 swagger: '2.0'
 schemes:
   - http
-host: 159.203.5.35
+host: '159.203.5.35:4000'
 basePath: /
 info:
   description: >

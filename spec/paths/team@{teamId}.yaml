@@ -1,0 +1,31 @@
+put:
+  tags:
+    - Team
+  summary: Updates a team inside of the current Room.
+  description: >-
+    Updates a `Team` inside of the current `Room` by either changing the team
+    name if the requester is already inside of the group, or else if the
+    requester is not part of this `Team`, then the requester will join.
+  parameters:
+    - name: teamId
+      in: path
+      description: the TeamId that requester wants to update
+      type: string
+      required: true
+    - name: teamName
+      in: body
+      description: the newly updated Team Name
+      schema:
+        type: string
+      required: true
+  security:
+    - Session: []
+  produces:
+    - application/json
+  responses:
+    '200':
+      description: Successfully created a team
+      schema:
+        $ref: '#/definitions/Team'
+    '400':
+      description: There is no team with the specified ID. Please choose a valid team.

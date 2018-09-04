@@ -1,0 +1,29 @@
+description: The settings of a room
+type: object
+properties:
+  rounds:
+    description: How many rounds that a room will have
+    type: integer
+    example: 4
+  roundTypes:
+    description: What round types and their order that will be used
+    type: array
+    items:
+      type: string
+    example: DESCRIBE_IT
+  maxTeams:
+    description: How many teams are allowed to be created in a room
+    type: integer
+    example: 5
+  roundTimeInSeconds:
+    description: How long should a round last in seconds
+    type: integer
+    example: 60
+  allowSkips:
+    description: A setting that allows a participant to skip words they cannot act
+    type: boolean
+    example: false
+  wordsPerPerson:
+    description: How many words are participants allowed to add into the word bowl
+    type: integer
+    example: 3

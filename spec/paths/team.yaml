@@ -1,0 +1,24 @@
+post:
+  tags:
+    - Team
+  summary: Create a team inside the current Room
+  description: >-
+    Creates a `Team` inside of the current `Room`. The `Player` will be
+    `teamMember1` and the team will be named using the inputted `teamName`
+  operationId: createTeam
+  parameters:
+    - name: teamName
+      in: body
+      description: the team's name
+      schema:
+        type: string
+      required: true
+  security:
+    - Session: []
+  produces:
+    - application/json
+  responses:
+    '200':
+      description: Successfully created a team
+      schema:
+        $ref: '#/definitions/Team'

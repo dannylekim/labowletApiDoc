@@ -1,0 +1,60 @@
+description: A room in which players can join and start a game of Labowlet
+type: object
+properties:
+  teams:
+    description: The teams that have been created inside the room
+    type: array
+    items:
+      $ref: '#/definitions/Team'
+  benchPlayers:
+    description: >-
+      The players that have not joined a team yet. When you join a room, you are
+      here.
+    type: array
+    items:
+      $ref: '#/definitions/Player'
+  host:
+    $ref: '#/definitions/Player'
+  roomCode:
+    description: The unique room code that identifies this room
+    type: string
+    example: Ak8be
+  roomSettings:
+    $ref: '#/definitions/RoomSettings'
+  wordBowl:
+    description: All of the words that have been added to the bowl
+    type: array
+    items:
+      type: string
+    example:
+      - One word
+      - Two words
+  wordsMadePerPlayer:
+    description: A mapping of all of the words that have been added by a specific player.
+    type: object
+    properties:
+      player:
+        description: the player is the key
+        type: array
+        items:
+          type: string
+        example:
+          - One Word
+          - Two Word
+  isLocked:
+    description: A boolean value denoted if the room has been locked in
+    type: boolean
+    example: true
+  canStart:
+    description: A boolean value denoting if the host can start a game.
+    type: boolean
+    example: true
+  isInPlay:
+    description: A boolean value denoting if the game has started already.
+    type: boolean
+    example: true
+  rounds:
+    description: A list of rounds that have been configured for this room
+    type: array
+    items:
+      $ref: '#/definitions/Round'

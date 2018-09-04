@@ -1,0 +1,22 @@
+description: The current round and state in Labowlet
+type: object
+properties:
+  roundName:
+    description: the current Round Name
+    type: string
+    example: DESCRIBE_IT
+  remainingWords:
+    description: The remaining words for this round
+    type: array
+    items:
+      type: string
+      example:
+        - One word
+  description:
+    description: The description of this room
+    type: string
+    example: You must describe the words you get
+  turns:
+    description: What's the current turn
+    type: integer
+    example: 3

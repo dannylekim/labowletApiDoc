@@ -1,0 +1,46 @@
+post:
+  tags:
+    - Room
+  summary: Create a new Room
+  description: >
+    Creates a new `Room` with the inputted `RoomSettings` and makes the
+    requester a host to this `Room` and adds them to the `benchPlayers` list.
+  operationId: createRoom
+  parameters:
+    - name: Room Settings
+      in: body
+      description: The room settings to use for this room
+      schema:
+        $ref: '#/definitions/RoomSettings'
+  security:
+    - Session: []
+  produces:
+    - application/json
+  responses:
+    '200':
+      description: Successfully created a Room
+      schema:
+        $ref: '#/definitions/Room'
+put:
+  tags:
+    - Room
+  summary: Update a new Room
+  description: Host updates the `Room` with the inputted `RoomSettings`
+  operationId: updateRoom
+  parameters:
+    - name: Room Settings
+      in: body
+      description: The room settings to use for this room
+      schema:
+        $ref: '#/definitions/RoomSettings'
+  security:
+    - Session: []
+  produces:
+    - application/json
+  responses:
+    '200':
+      description: Successfully updated a Room
+      schema:
+        $ref: '#/definitions/Room'
+    '400':
+      description: This room is no longer able to be modified as it has already started.

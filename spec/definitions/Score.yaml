@@ -1,0 +1,14 @@
+description: The score object used for a game of Labowlet
+type: object
+properties:
+  roundScores:
+    type: object
+    properties:
+      roundName:
+        description: The score for a round
+        type: string
+        example: DESCRIBE_IT
+  totalScore:
+    description: The total Score currently tallied
+    type: integer
+    example: 100
