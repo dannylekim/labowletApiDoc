@@ -5,14 +5,6 @@ properties:
     description: Player supplied name
     type: string
     example: Danny
-  words:
-    description: The words that the user has created to place into a word bowl
-    type: array
-    items:
-      type: string
-    example:
-      - One Word
-      - Another Word
   id:
     description: The unique ID associated to this newly created Player
     type: string
