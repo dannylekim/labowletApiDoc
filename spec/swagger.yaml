@@ -38,6 +38,10 @@ tags:
     description: Operations about the Team
 securityDefinitions:
   Session:
+    description: >-
+      There is a header that is returned off the very first function
+      (createPlayer). This header and its value will need to be passed on for
+      every other request or else they will return a 500 error or otherwise.
     type: apiKey
     in: header
     name: X-Auth-Token

@@ -1,0 +1,43 @@
+put:
+  tags:
+    - Room
+  summary: Update a new Room
+  description: >-
+    Host updates the `Room` with the inputted `RoomSettings`. You cannot update
+    this room if the room has already started OR if you are not the host.
+  operationId: updateRoom
+  parameters:
+    - name: Room Settings
+      in: body
+      description: The room settings to use for this room
+      schema:
+        $ref: '#/definitions/RoomSettings'
+  security:
+    - Session: []
+  produces:
+    - application/json
+  responses:
+    '200':
+      description: Successfully updated a Room
+      schema:
+        $ref: '#/definitions/Room'
+    '403':
+      description: You are not authorized to perform this request!
+      schema:
+        $ref: '#/definitions/Error'
+    '409':
+      description: This room is no longer able to be modified as it has already started.
+      schema:
+        $ref: '#/definitions/Error'
+    '410':
+      description: >-
+        You cannot perform this request because the room you are in is no longer
+        active!
+      schema:
+        $ref: '#/definitions/Error'
+    '424':
+      description: >-
+        You cannot perform this request because you haven't joined or created a
+        room yet!
+      schema:
+        $ref: '#/definitions/Error'

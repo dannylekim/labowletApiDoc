@@ -16,7 +16,10 @@ put:
       in: body
       description: the newly updated Team Name
       schema:
-        type: string
+        type: object
+        properties:
+          teamName:
+            type: string
       required: true
   security:
     - Session: []
@@ -29,3 +32,21 @@ put:
         $ref: '#/definitions/Team'
     '400':
       description: There is no team with the specified ID. Please choose a valid team.
+      schema:
+        $ref: '#/definitions/Error'
+    '409':
+      description: This room is no longer able to be modified as it has already started.
+      schema:
+        $ref: '#/definitions/Error'
+    '410':
+      description: >-
+        You cannot perform this request because the room you are in is no longer
+        active!
+      schema:
+        $ref: '#/definitions/Error'
+    '424':
+      description: >-
+        You cannot perform this request because you haven't joined or created a
+        room yet!
+      schema:
+        $ref: '#/definitions/Error'

@@ -7,14 +7,18 @@ post:
     former. This `PlayerSession` is then
 
     associated to the current `HttpSession` and is now tracked along every
-    request that this session will perform.
+    request that this session will perform. This request will return a header
+    `x-auth-token` to pass for the subsequent requests. 
   operationId: createPlayer
   parameters:
     - name: player
       in: body
       description: The name of the player
       schema:
-        type: string
+        type: object
+        properties:
+          name:
+            type: string
       required: true
   produces:
     - application/json

@@ -1,0 +1,27 @@
+description: The Labowlet Error Object
+type: object
+properties:
+  status:
+    description: The HTTP error code
+    type: string
+    example: 403
+  timestamp:
+    description: 'The timestamp of when the error occurred in pattern "dd-MM-yyyy hh:mm:ss"'
+    type: string
+    example: 01-Jan-2018
+  message:
+    description: The message that is application dependent
+    type: string
+    example: Labowlet received an unexpected error.
+  debugMessage:
+    description: The descriptive message detailing what the problem is
+    type: string
+    example: This room is no longer able to be modified as it has already started.
+  subError:
+    description: >-
+      If there are any sub errors then this is where they would be placed. The
+      class is abstract so for now there are no defined structure besides that
+      it is an array of objects.
+    type: array
+    items:
+      type: object

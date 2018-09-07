@@ -1,0 +1,77 @@
+post:
+  tags:
+    - Room
+  summary: Create a new Room
+  description: >
+    Creates a new `Room` with the inputted `RoomSettings` and makes the
+    requester a host to this `Room` and adds them to the `benchPlayers` list.
+  operationId: createRoom
+  parameters:
+    - name: Room Settings
+      in: body
+      description: The room settings to use for this room
+      schema:
+        $ref: '#/definitions/RoomSettings'
+  security:
+    - Session: []
+  produces:
+    - application/json
+  responses:
+    '200':
+      description: Successfully created a Room
+      schema:
+        $ref: '#/definitions/Room'
+    '409':
+      description: This room is no longer able to be modified as it has already started.
+      schema:
+        $ref: '#/definitions/Error'
+    '410':
+      description: >-
+        You cannot perform this request because the room you are in is no longer
+        active!
+      schema:
+        $ref: '#/definitions/Error'
+    '424':
+      description: >-
+        You cannot perform this request because you haven't joined or created a
+        room yet!
+      schema:
+        $ref: '#/definitions/Error'
+put:
+  tags:
+    - Room
+  summary: Join a room
+  description: >-
+    Join a new `Room` with the inputted `roomCode` and the player will join the
+    `benchPlayers`.
+  operationId: joinRoom
+  parameters:
+    - name: roomCode
+      in: body
+      description: The unique roomCode
+      schema:
+        type: object
+        properties:
+          roomCode:
+            type: string
+  security:
+    - Session: []
+  produces:
+    - application/json
+  responses:
+    '409':
+      description: This room is no longer able to be modified as it has already started.
+      schema:
+        $ref: '#/definitions/Error'
+    '410':
+      description: >-
+        You cannot perform this request because the room you are in is no longer
+        active!
+      schema:
+        $ref: '#/definitions/Error'
+    '424':
+      description: >-
+        You cannot perform this request because you haven't joined or created a
+        room yet!
+      schema:
+        $ref: '#/definitions/Error'
