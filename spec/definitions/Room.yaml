@@ -16,9 +16,11 @@ properties:
   host:
     $ref: '#/definitions/Player'
   roomCode:
-    description: The unique room code that identifies this room
+    description: >-
+      The unique room code that identifies this room. It will ALWAYS be in all
+      caps with numbers (ABCDE123)
     type: string
-    example: Ak8be
+    example: AK8BE
   roomSettings:
     $ref: '#/definitions/RoomSettings'
   wordBowl:

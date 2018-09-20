@@ -1,12 +1,10 @@
 description: The settings of a room
 type: object
 properties:
-  rounds:
-    description: How many rounds that a room will have
-    type: integer
-    example: 4
   roundTypes:
-    description: What round types and their order that will be used
+    description: >-
+      What round types and their order that will be used. The values must be one
+      of `DESCRIBE_IT`, `SOUND_IT_OUT`, `ONE_WORD_DESCRIPTION`, `ACT_IT_OUT`
     type: array
     items:
       type: string

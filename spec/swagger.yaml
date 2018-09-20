@@ -42,6 +42,8 @@ securityDefinitions:
       There is a header that is returned off the very first function
       (createPlayer). This header and its value will need to be passed on for
       every other request or else they will return a 500 error or otherwise.
+      There are a lot of errors that can be attributed to the security here such
+      as missing x-auth-token or invalid session.
     type: apiKey
     in: header
     name: X-Auth-Token
