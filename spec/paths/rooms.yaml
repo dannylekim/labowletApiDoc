@@ -4,7 +4,9 @@ post:
   summary: Create a new Room
   description: >
     Creates a new `Room` with the inputted `RoomSettings` and makes the
-    requester a host to this `Room` and adds them to the `benchPlayers` list.
+    requester a host to this `Room` and adds them to the `benchPlayers` list. It
+    will create the set amount of Empty Slot teams to join. You should also be
+    able to join the socket here `labowlet/room/{roomCode}`
   operationId: createRoom
   parameters:
     - name: Room Settings
@@ -43,7 +45,8 @@ put:
   summary: Join a room
   description: >-
     Join a new `Room` with the inputted `roomCode` and the player will join the
-    `benchPlayers`.
+    `benchPlayers`. Once you join, you should join `labowlet/room/{roomCode}`
+    for the socket.
   operationId: joinRoom
   parameters:
     - name: roomCode

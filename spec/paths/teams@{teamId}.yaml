@@ -5,11 +5,16 @@ put:
   description: >-
     Updates a `Team` inside of the current `Room` by either changing the team
     name if the requester is already inside of the group, or else if the
-    requester is not part of this `Team`, then the requester will join.
+    requester is not part of this `Team`, then the requester will join. You can
+    pass `bench` as teamId and what will happen is the player will leave from
+    whichever team they were in and go into the bench. Anytime there is no more
+    players inside a team, then the team name will be called `Empty Slot`
   parameters:
     - name: teamId
       in: path
-      description: the TeamId that requester wants to update
+      description: >-
+        the TeamId that requester wants to update. Could be an id or could also
+        be `bench`
       type: string
       required: true
     - name: teamName
@@ -29,7 +34,7 @@ put:
     '200':
       description: Successfully created a team
       schema:
-        $ref: '#/definitions/Team'
+        $ref: '#/definitions/Room'
     '400':
       description: There is no team with the specified ID. Please choose a valid team.
       schema:
