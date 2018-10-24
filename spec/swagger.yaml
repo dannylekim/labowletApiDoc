@@ -1,0 +1,43 @@
+swagger: '2.0'
+schemes:
+  - http
+host: 159.203.5.35
+basePath: /
+info:
+  description: >
+    These are the backend api points for Labowlet.
+
+
+    # Introduction
+
+    Welcome to Labowlet! This here is the api documentation that describes all
+    the relevant events that will happen
+
+    in the web application.
+  version: 1.0.0
+  title: Labowlet
+  contact:
+    email: dannylekim@gmail.com
+    url: 'https://github.com/dannylekim'
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  x-logo:
+    url: >-
+      https://banner2.kisspng.com/20180501/fhw/kisspng-greek-salad-bowl-lettuce-vegetable-5ae8f252632712.5573243615252158264061.jpg
+produces:
+  - application/json
+consumes:
+  - application/json
+tags:
+  - name: Player
+    description: Operations regarding the player and a user's session.
+  - name: Room
+    description: Operations about Room
+  - name: Team
+    description: Operations about the Team
+securityDefinitions:
+  Session:
+    type: apiKey
+    in: header
+    name: X-Auth-Token

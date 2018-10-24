@@ -1,0 +1,434 @@
+swagger: '2.0'
+schemes:
+  - http
+host: '159.203.5.35:4000'
+basePath: /
+info:
+  description: |
+    These are the backend api points for Labowlet.
+
+    # Introduction
+    Welcome to Labowlet! This here is the api documentation that describes all the relevant events that will happen
+    in the web application.
+  version: 1.0.0
+  title: Labowlet
+  contact:
+    email: dannylekim@gmail.com
+    url: 'https://github.com/dannylekim'
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  x-logo:
+    url: 'https://banner2.kisspng.com/20180501/fhw/kisspng-greek-salad-bowl-lettuce-vegetable-5ae8f252632712.5573243615252158264061.jpg'
+produces:
+  - application/json
+consumes:
+  - application/json
+tags:
+  - name: Player
+    description: Operations regarding the player and a user's session.
+  - name: Room
+    description: Operations about Room
+  - name: Team
+    description: Operations about the Team
+securityDefinitions:
+  Session:
+    description: There is a header that is returned off the very first function (createPlayer). This header and its value will need to be passed on for every other request or else they will return a 500 error or otherwise. There are a lot of errors that can be attributed to the security here such as missing x-auth-token or invalid session.
+    type: apiKey
+    in: header
+    name: X-Auth-Token
+paths:
+  /host/rooms:
+    put:
+      tags:
+        - Room
+      summary: Update a new Room
+      description: Host updates the `Room` with the inputted `RoomSettings`. You cannot update this room if the room has already started OR if you are not the host.
+      operationId: updateRoom
+      parameters:
+        - name: Room Settings
+          in: body
+          description: The room settings to use for this room
+          schema:
+            $ref: '#/definitions/RoomSettings'
+      security:
+        - Session: []
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successfully updated a Room
+          schema:
+            $ref: '#/definitions/Room'
+        '403':
+          description: You are not authorized to perform this request!
+          schema:
+            $ref: '#/definitions/Error'
+        '409':
+          description: This room is no longer able to be modified as it has already started.
+          schema:
+            $ref: '#/definitions/Error'
+        '410':
+          description: You cannot perform this request because the room you are in is no longer active!
+          schema:
+            $ref: '#/definitions/Error'
+        '424':
+          description: You cannot perform this request because you haven't joined or created a room yet!
+          schema:
+            $ref: '#/definitions/Error'
+  /players:
+    post:
+      tags:
+        - Player
+      summary: Create a new player
+      description: |
+        Creates a new `PlayerSession` and a new `Player` that is associated to the former. This `PlayerSession` is then
+        associated to the current `HttpSession` and is now tracked along every request that this session will perform. This request will return a header `x-auth-token` to pass for the subsequent requests. 
+      operationId: createPlayer
+      parameters:
+        - name: player
+          in: body
+          description: The name of the player
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Player'
+  /rooms:
+    post:
+      tags:
+        - Room
+      summary: Create a new Room
+      description: |
+        Creates a new `Room` with the inputted `RoomSettings` and makes the requester a host to this `Room` and adds them to the `benchPlayers` list. It will create the set amount of Empty Slot teams to join. You should also be able to join the socket here `labowlet/room/{roomCode}`
+      operationId: createRoom
+      parameters:
+        - name: Room Settings
+          in: body
+          description: The room settings to use for this room
+          schema:
+            $ref: '#/definitions/RoomSettings'
+      security:
+        - Session: []
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successfully created a Room
+          schema:
+            $ref: '#/definitions/Room'
+        '409':
+          description: This room is no longer able to be modified as it has already started.
+          schema:
+            $ref: '#/definitions/Error'
+        '410':
+          description: You cannot perform this request because the room you are in is no longer active!
+          schema:
+            $ref: '#/definitions/Error'
+        '424':
+          description: You cannot perform this request because you haven't joined or created a room yet!
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      tags:
+        - Room
+      summary: Join a room
+      description: 'Join a new `Room` with the inputted `roomCode` and the player will join the `benchPlayers`. Once you join, you should join `labowlet/room/{roomCode}` for the socket.'
+      operationId: joinRoom
+      parameters:
+        - name: roomCode
+          in: body
+          description: The unique roomCode
+          schema:
+            type: object
+            properties:
+              roomCode:
+                type: string
+      security:
+        - Session: []
+      produces:
+        - application/json
+      responses:
+        '409':
+          description: This room is no longer able to be modified as it has already started.
+          schema:
+            $ref: '#/definitions/Error'
+        '410':
+          description: You cannot perform this request because the room you are in is no longer active!
+          schema:
+            $ref: '#/definitions/Error'
+        '424':
+          description: You cannot perform this request because you haven't joined or created a room yet!
+          schema:
+            $ref: '#/definitions/Error'
+  /teams:
+    post:
+      tags:
+        - Team
+      summary: Create a team inside the current Room
+      description: Creates a `Team` inside of the current `Room`. The `Player` will be `teamMember1` and the team will be named using the inputted `teamName`
+      operationId: createTeam
+      parameters:
+        - name: teamName
+          in: body
+          description: the team's name
+          schema:
+            type: object
+            properties:
+              teamName:
+                type: string
+          required: true
+      security:
+        - Session: []
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successfully created a team
+          schema:
+            $ref: '#/definitions/Team'
+        '409':
+          description: This room is no longer able to be modified as it has already started.
+          schema:
+            $ref: '#/definitions/Error'
+        '410':
+          description: You cannot perform this request because the room you are in is no longer active!
+          schema:
+            $ref: '#/definitions/Error'
+        '424':
+          description: You cannot perform this request because you haven't joined or created a room yet!
+          schema:
+            $ref: '#/definitions/Error'
+  '/teams/{teamId}':
+    put:
+      tags:
+        - Team
+      summary: Updates a team inside of the current Room.
+      description: 'Updates a `Team` inside of the current `Room` by either changing the team name if the requester is already inside of the group, or else if the requester is not part of this `Team`, then the requester will join. You can pass `bench` as teamId and what will happen is the player will leave from whichever team they were in and go into the bench. Anytime there is no more players inside a team, then the team name will be called `Empty Slot`'
+      parameters:
+        - name: teamId
+          in: path
+          description: the TeamId that requester wants to update. Could be an id or could also be `bench`
+          type: string
+          required: true
+        - name: teamName
+          in: body
+          description: the newly updated Team Name
+          schema:
+            type: object
+            properties:
+              teamName:
+                type: string
+          required: true
+      security:
+        - Session: []
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successfully created a team
+          schema:
+            $ref: '#/definitions/Room'
+        '400':
+          description: There is no team with the specified ID. Please choose a valid team.
+          schema:
+            $ref: '#/definitions/Error'
+        '409':
+          description: This room is no longer able to be modified as it has already started.
+          schema:
+            $ref: '#/definitions/Error'
+        '410':
+          description: You cannot perform this request because the room you are in is no longer active!
+          schema:
+            $ref: '#/definitions/Error'
+        '424':
+          description: You cannot perform this request because you haven't joined or created a room yet!
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Error:
+    description: The Labowlet Error Object
+    type: object
+    properties:
+      status:
+        description: The HTTP error code
+        type: string
+        example: 403
+      timestamp:
+        description: 'The timestamp of when the error occurred in pattern "dd-MM-yyyy hh:mm:ss"'
+        type: string
+        example: 01-Jan-2018
+      message:
+        description: The message that is application dependent
+        type: string
+        example: Labowlet received an unexpected error.
+      debugMessage:
+        description: The descriptive message detailing what the problem is
+        type: string
+        example: This room is no longer able to be modified as it has already started.
+      subError:
+        description: If there are any sub errors then this is where they would be placed. The class is abstract so for now there are no defined structure besides that it is an array of objects.
+        type: array
+        items:
+          type: object
+  Player:
+    description: The created Player
+    type: object
+    properties:
+      name:
+        description: Player supplied name
+        type: string
+        example: Danny
+      id:
+        description: The unique ID associated to this newly created Player
+        type: string
+        example: 7004efef-dab8-4971-8149-cdcd6e16f7e2
+  Room:
+    description: A room in which players can join and start a game of Labowlet
+    type: object
+    properties:
+      teams:
+        description: The teams that have been created inside the room
+        type: array
+        items:
+          $ref: '#/definitions/Team'
+      benchPlayers:
+        description: 'The players that have not joined a team yet. When you join a room, you are here.'
+        type: array
+        items:
+          $ref: '#/definitions/Player'
+      host:
+        $ref: '#/definitions/Player'
+      roomCode:
+        description: The unique room code that identifies this room. It will ALWAYS be in all caps with numbers (ABCDE123)
+        type: string
+        example: AK8BE
+      roomSettings:
+        $ref: '#/definitions/RoomSettings'
+      wordBowl:
+        description: All of the words that have been added to the bowl
+        type: array
+        items:
+          type: string
+        example:
+          - One word
+          - Two words
+      wordsMadePerPlayer:
+        description: A mapping of all of the words that have been added by a specific player.
+        type: object
+        properties:
+          player:
+            description: the player is the key
+            type: array
+            items:
+              type: string
+            example:
+              - One Word
+              - Two Word
+      isLocked:
+        description: A boolean value denoted if the room has been locked in
+        type: boolean
+        example: true
+      canStart:
+        description: A boolean value denoting if the host can start a game.
+        type: boolean
+        example: true
+      isInPlay:
+        description: A boolean value denoting if the game has started already.
+        type: boolean
+        example: true
+      rounds:
+        description: A list of rounds that have been configured for this room
+        type: array
+        items:
+          $ref: '#/definitions/Round'
+  RoomSettings:
+    description: The settings of a room
+    type: object
+    properties:
+      roundTypes:
+        description: 'What round types and their order that will be used. The values must be one of `DESCRIBE_IT`, `SOUND_IT_OUT`, `ONE_WORD_DESCRIPTION`, `ACT_IT_OUT`'
+        type: array
+        items:
+          type: string
+        example: DESCRIBE_IT
+      maxTeams:
+        description: How many teams are allowed to be created in a room
+        type: integer
+        example: 5
+      roundTimeInSeconds:
+        description: How long should a round last in seconds
+        type: integer
+        example: 60
+      allowSkips:
+        description: A setting that allows a participant to skip words they cannot act
+        type: boolean
+        example: false
+      wordsPerPerson:
+        description: How many words are participants allowed to add into the word bowl
+        type: integer
+        example: 3
+  Round:
+    description: The current round and state in Labowlet
+    type: object
+    properties:
+      roundName:
+        description: the current Round Name
+        type: string
+        example: DESCRIBE_IT
+      remainingWords:
+        description: The remaining words for this round
+        type: array
+        items:
+          type: string
+          example:
+            - One word
+      description:
+        description: The description of this room
+        type: string
+        example: You must describe the words you get
+      turns:
+        description: What's the current turn
+        type: integer
+        example: 3
+  Score:
+    description: The score object used for a game of Labowlet
+    type: object
+    properties:
+      roundScores:
+        type: object
+        properties:
+          roundName:
+            description: The score for a round
+            type: string
+            example: DESCRIBE_IT
+      totalScore:
+        description: The total Score currently tallied
+        type: integer
+        example: 100
+  Team:
+    description: A participating team in a room
+    type: object
+    properties:
+      teamName:
+        description: The team name
+        type: string
+        example: First Team
+      teamMember1:
+        $ref: '#/definitions/Player'
+      teamMember2:
+        $ref: '#/definitions/Player'
+      teamId:
+        description: unique identifier of a team
+        type: string
+        example: 7004efef-dab8-4971-8149-cdcd6e16f7e2
+      teamScore:
+        $ref: '#/definitions/Score'
